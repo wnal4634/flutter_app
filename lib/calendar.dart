@@ -61,7 +61,6 @@ class _CalendarState extends State<Calendar> {
                 selectedDay = selectDay;
                 focusedDay = focusDay;
               });
-              print(focusDay);
             },
 
             eventLoader: _getEventsfromDay,
