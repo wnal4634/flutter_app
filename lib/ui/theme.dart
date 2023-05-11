@@ -12,6 +12,7 @@ class Themes {
   static final light = ThemeData(
     colorScheme: const ColorScheme.light(
       primary: primaryClr,
+      background: Colors.white,
     ),
     brightness: Brightness.light,
   );
@@ -20,6 +21,7 @@ class Themes {
     colorScheme: const ColorScheme.dark(
       primary: darkGreyClr,
       brightness: Brightness.dark,
+      background: darkGreyClr,
     ),
   );
 }

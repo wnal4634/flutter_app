@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:note_calendar/services/noti_services.dart';
 import 'package:note_calendar/services/theme_services.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,17 +12,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var notifyHelper;
+
+  @override
+  void initState() {
+    super.initState();
+    notifyHelper = NotifyHelper();
+    notifyHelper.initializeNotification();
+    notifyHelper.requestIOSPermissions();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      body: const Column(
+      body: Column(
         children: [
-          Text(
-            'Theme Data',
-            style: TextStyle(
-              fontSize: 30,
-            ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      DateFormat.yMMMMd().format(
+                        DateTime.now(),
+                      ),
+                    ),
+                    const Text('Today'),
+                  ],
+                ),
+              )
+            ],
           )
         ],
       ),
@@ -28,21 +54,32 @@ class _HomePageState extends State<HomePage> {
 
   _appBar() {
     return AppBar(
+      elevation: 0,
+      backgroundColor: context.theme.colorScheme.background,
       leading: GestureDetector(
         onTap: () {
           ThemeService().SwitchTheme();
+          notifyHelper.displayNotification(
+            title: 'Theme Changed',
+            body: Get.isDarkMode
+                ? 'Activated light Theme'
+                : 'Activated Dark Theme',
+          );
+          // notifyHelper.scheduledNotification();
         },
-        child: const Icon(
-          Icons.nightlight_round,
+        child: Icon(
+          Get.isDarkMode ? Icons.light_mode_rounded : Icons.nightlight_round,
           size: 20,
+          color: Get.isDarkMode ? Colors.white : Colors.black,
         ),
       ),
-      actions: const [
+      actions: [
         Icon(
           Icons.person,
           size: 20,
+          color: Get.isDarkMode ? Colors.white : Colors.black,
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         )
       ],
