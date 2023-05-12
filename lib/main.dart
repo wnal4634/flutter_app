@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:note_calendar/services/theme_services.dart';
-import 'package:note_calendar/ui/home_page.dart';
+import 'package:note_calendar/ui/widgets/home_page.dart';
 import 'package:note_calendar/ui/theme.dart';
 
 void main() async {
