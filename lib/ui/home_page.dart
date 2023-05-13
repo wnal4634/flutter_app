@@ -88,20 +88,22 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                DateFormat.yMMMMd().format(
-                  DateTime.now(),
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateFormat.yMMMMd().format(
+                    DateTime.now(),
+                  ),
+                  style: subHeadingStyle,
                 ),
-                style: subHeadingStyle,
-              ),
-              Text(
-                'Today',
-                style: headingStyle,
-              ),
-            ],
+                Text(
+                  'Today',
+                  style: headingStyle,
+                ),
+              ],
+            ),
           ),
           MyButton(
             label: '+ Add Task',

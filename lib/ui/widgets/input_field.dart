@@ -30,8 +30,8 @@ class MyInputField extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(top: 8.0),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 14,
+            padding: const EdgeInsets.only(
+              left: 14,
             ),
             height: 52,
             decoration: BoxDecoration(
@@ -45,6 +45,7 @@ class MyInputField extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
+                    readOnly: widget == null ? false : true,
                     autofocus: false,
                     cursorColor:
                         Get.isDarkMode ? Colors.grey[100] : Colors.grey[700],
@@ -68,6 +69,11 @@ class MyInputField extends StatelessWidget {
                     ),
                   ),
                 ),
+                widget == null
+                    ? Container()
+                    : Container(
+                        child: widget,
+                      )
               ],
             ),
           )
