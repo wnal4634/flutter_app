@@ -1,13 +1,16 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:note_calendar/controllers/task_controller.dart';
 import 'package:note_calendar/services/noti_services.dart';
 import 'package:note_calendar/services/theme_services.dart';
 import 'package:note_calendar/ui/add_task_bar.dart';
 import 'package:note_calendar/ui/theme.dart';
 import 'package:note_calendar/ui/widgets/button.dart';
+import 'package:note_calendar/ui/widgets/task_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var notifyHelper;
   DateTime _selectedDate = DateTime.now();
+  final _taskController = Get.put(TaskController());
 
   @override
   void initState() {
@@ -26,17 +30,54 @@ class _HomePageState extends State<HomePage> {
     notifyHelper = NotifyHelper();
     notifyHelper.initializeNotification();
     notifyHelper.requestIOSPermissions();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
+      backgroundColor: context.theme.colorScheme.background,
       body: Column(
         children: [
           _addTaskBar(),
           _addDateBar(),
+          const SizedBox(
+            height: 10,
+          ),
+          _showTasks(),
         ],
+      ),
+    );
+  }
+
+  _showTasks() {
+    return Expanded(
+      child: Obx(
+        () {
+          return ListView.builder(
+            itemCount: _taskController.taskList.length,
+            itemBuilder: (_, index) {
+              print(_taskController.taskList.length);
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                child: SlideAnimation(
+                  child: FadeInAnimation(
+                      child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          print('tapped');
+                        },
+                        child: TaskTile(_taskController.taskList[index]),
+                      )
+                    ],
+                  )),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -107,9 +148,12 @@ class _HomePageState extends State<HomePage> {
           ),
           MyButton(
             label: '+ Add Task',
-            onTap: () => Get.to(
-              const AddTaskPage(),
-            ),
+            onTap: () async {
+              await Get.to(
+                const AddTaskPage(),
+              );
+              _taskController.getTask();
+            },
           ),
         ],
       ),
