@@ -54,4 +54,15 @@ class DBHelper {
       whereArgs: [task.id],
     );
   }
+
+  static update(int id) async {
+    return await _db!.rawUpdate(
+      '''
+      UPDATE tasks
+      SET isCompleted = ?
+      WHERE id = ?
+      ''',
+      [1, id],
+    );
+  }
 }
