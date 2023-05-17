@@ -60,24 +60,25 @@ class _HomePageState extends State<HomePage> {
             itemCount: _taskController.taskList.length,
             itemBuilder: (_, index) {
               Task task = _taskController.taskList[index];
-              if (task.repeat == 'Daily') {
-                return AnimationConfiguration.staggeredList(
-                  position: index,
-                  child: SlideAnimation(
-                    child: FadeInAnimation(
-                        child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _showBottomSheet(context, task);
-                          },
-                          child: TaskTile(task),
-                        )
-                      ],
-                    )),
-                  ),
-                );
-              }
+              // if (task.repeat == 'Daily') {
+              //   return AnimationConfiguration.staggeredList(
+              //     position: index,
+              //     child: SlideAnimation(
+              //       child: FadeInAnimation(
+              //         child: Row(
+              //           children: [
+              //             GestureDetector(
+              //               onTap: () {
+              //                 _showBottomSheet(context, task);
+              //               },
+              //               child: TaskTile(task),
+              //             )
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   );
+              // }
               if (task.date == DateFormat.yMd().format(_selectedDate)) {
                 return AnimationConfiguration.staggeredList(
                   position: index,

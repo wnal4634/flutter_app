@@ -19,23 +19,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-  String _endTime = '9:30 PM';
-  String _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  int _selectedRemind = 5;
-  List<int> remindList = [
-    5,
-    10,
-    15,
-    20,
-  ];
-  String _selectedRepeat = 'None';
-  List<String> repeatList = [
-    'None',
-    'Daily',
-    'Weekly',
-    'Monthly',
-  ];
+  final String _startTime =
+      DateFormat('hh:mm a').format(DateTime.now()).toString();
   int _selectedColor = 0;
+  int _selectedWeather = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,114 +63,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   },
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyInputField(
-                      title: 'Start Time',
-                      hint: _startTime,
-                      widget: IconButton(
-                        icon: const Icon(
-                          Icons.access_time_rounded,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          _getTimeFromUser(isStartTime: true);
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: MyInputField(
-                      title: 'End Time',
-                      hint: _endTime,
-                      widget: IconButton(
-                        icon: const Icon(
-                          Icons.access_time_rounded,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          _getTimeFromUser(isStartTime: false);
-                        },
-                      ),
-                    ),
-                  )
-                ],
+              const SizedBox(
+                height: 18,
               ),
-              MyInputField(
-                title: 'Remind',
-                hint: '$_selectedRemind minutes early',
-                widget: DropdownButton(
-                  icon: Transform.translate(
-                    offset: const Offset(-5, 0),
-                    child: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  iconSize: 32,
-                  elevation: 4,
-                  style: subTitleStyle,
-                  underline: Container(
-                    height: 0,
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedRemind = int.parse(newValue!);
-                    });
-                  },
-                  items: remindList.map<DropdownMenuItem<String>>(
-                    (int value) {
-                      return DropdownMenuItem<String>(
-                        value: value.toString(),
-                        child: Text(
-                          value.toString(),
-                        ),
-                      );
-                    },
-                  ).toList(),
-                ),
-              ),
-              MyInputField(
-                title: 'Repeat',
-                hint: _selectedRepeat,
-                widget: DropdownButton(
-                  icon: Transform.translate(
-                    offset: const Offset(-5, 0),
-                    child: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  iconSize: 32,
-                  elevation: 4,
-                  style: subTitleStyle,
-                  underline: Container(
-                    height: 0,
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedRepeat = newValue!;
-                    });
-                  },
-                  items: repeatList.map<DropdownMenuItem<String>>(
-                    (String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      );
-                    },
-                  ).toList(),
-                ),
-              ),
+              _weatherPallete(),
               const SizedBox(
                 height: 18,
               ),
@@ -228,11 +111,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
         note: _noteController.text,
         title: _titleController.text,
         date: DateFormat.yMd().format(_selectedDate),
-        startTime: _startTime,
-        endTime: _endTime,
-        remind: _selectedRemind,
-        repeat: _selectedRepeat,
         color: _selectedColor,
+        weather: _selectedWeather,
         isCompleted: 0,
       ),
     );
@@ -288,6 +168,59 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
+  _weatherPallete() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Weather',
+          style: titleStyle,
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Wrap(
+          children: List<Widget>.generate(
+            3,
+            (int index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedWeather = index;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    right: 8.0,
+                  ),
+                  child: CircleAvatar(
+                    radius: 14,
+                    // backgroundColor: index == 0
+                    //     ? primaryClr
+                    //     : index == 1
+                    //         ? pinkClr
+                    //         : yellowClr,
+
+                    backgroundColor: Colors.white,
+                    backgroundImage: const AssetImage('icon/sunny.png'),
+
+                    child: _selectedWeather == index
+                        ? const Icon(
+                            Icons.done,
+                            color: Colors.black,
+                            size: 16,
+                          )
+                        : Container(),
+                  ),
+                ),
+              );
+            },
+          ),
+        )
+      ],
+    );
+  }
+
   _appBar() {
     return AppBar(
       elevation: 0,
@@ -329,22 +262,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
       });
     } else {
       print("it's null or something is wrong");
-    }
-  }
-
-  _getTimeFromUser({required bool isStartTime}) async {
-    var pickedTime = await _showTimePicker();
-    String formatedTime = pickedTime.format(context);
-    if (pickedTime == null) {
-      print('Time canceled');
-    } else if (isStartTime == true) {
-      setState(() {
-        _startTime = formatedTime;
-      });
-    } else {
-      setState(() {
-        _endTime = formatedTime;
-      });
     }
   }
 
