@@ -21,6 +21,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   DateTime _selectedDate = DateTime.now();
   final String _startTime =
       DateFormat('hh:mm a').format(DateTime.now()).toString();
+  final String _writeTime = DateFormat.yMd().format(DateTime.now()).toString();
   int _selectedColor = 0;
   int _selectedWeather = 0;
 
@@ -68,7 +69,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               _weatherPallete(),
               const SizedBox(
-                height: 18,
+                height: 36,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,6 +112,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         note: _noteController.text,
         title: _titleController.text,
         date: DateFormat.yMd().format(_selectedDate),
+        writeTime: _writeTime,
         color: _selectedColor,
         weather: _selectedWeather,
         isCompleted: 0,
@@ -181,7 +183,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ),
         Wrap(
           children: List<Widget>.generate(
-            3,
+            9,
             (int index) {
               return GestureDetector(
                 onTap: () {
@@ -191,27 +193,62 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
+                    top: 22,
                     right: 8.0,
                   ),
-                  child: CircleAvatar(
-                    radius: 14,
-                    // backgroundColor: index == 0
-                    //     ? primaryClr
-                    //     : index == 1
-                    //         ? pinkClr
-                    //         : yellowClr,
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 16.5,
+                        // backgroundColor: index == 0
+                        //     ? primaryClr
+                        //     : index == 1
+                        //         ? pinkClr
+                        //         : yellowClr,
 
-                    backgroundColor: Colors.white,
-                    backgroundImage: const AssetImage('icon/sunny.png'),
-
-                    child: _selectedWeather == index
-                        ? const Icon(
-                            Icons.done,
-                            color: Colors.black,
-                            size: 16,
-                          )
-                        : Container(),
+                        backgroundColor: context.theme.colorScheme.background,
+                        backgroundImage: index == 0
+                            ? const AssetImage('icon/none.png')
+                            : index == 1
+                                ? const AssetImage('icon/sun.png')
+                                : index == 2
+                                    ? const AssetImage('icon/cloud_sun.png')
+                                    : index == 3
+                                        ? const AssetImage('icon/cloud.png')
+                                        : index == 4
+                                            ? const AssetImage(
+                                                'icon/cloudy.png')
+                                            : index == 5
+                                                ? const AssetImage(
+                                                    'icon/wind.png')
+                                                : index == 6
+                                                    ? const AssetImage(
+                                                        'icon/rain.png')
+                                                    : index == 7
+                                                        ? const AssetImage(
+                                                            'icon/snow.png')
+                                                        : const AssetImage(
+                                                            'icon/thunder.png'),
+                        child: _selectedWeather == index
+                            ? Transform.translate(
+                                offset: const Offset(-1, -27),
+                                child: const Icon(
+                                  Icons.done,
+                                  color: Colors.red,
+                                  size: 23,
+                                ),
+                              )
+                            : Container(),
+                      ),
+                    ],
                   ),
+                  // child: SizedBox(
+                  //   child: index == 0
+                  //       ? const Icon(Icons.wb_sunny_outlined)
+                  //       : index == 1
+                  //           ? const Icon(Icons.cloud_outlined)
+                  //           : const Icon(Icons.water_drop_outlined),
+                  // ),
                 ),
               );
             },

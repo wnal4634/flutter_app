@@ -45,6 +45,7 @@ dependencies:
     date_picker_timeline: ^1.2.3
     flutter_rounded_date_picker: ^3.0.2
     flutter_staggered_animations: ^1.1.1
+    avatar_view: ^1.0.1
 
 dev_dependencies:
     flutter_test:
@@ -69,7 +70,16 @@ flutter:
 
     # To add assets to your application, add an assets section, like this:
     assets:
-        - icon/sunny.png
+        - icon/sun.png
+        - icon/thunder.png
+        - icon/wind.png
+        - icon/snow.png
+        - icon/moon.png
+        - icon/cloudy.png
+        - icon/cloud.png
+        - icon/cloud_sun.png
+        - icon/rain.png
+        - icon/none.png
     #   - images/a_dot_burr.jpeg
     #   - images/a_dot_ham.jpeg
 

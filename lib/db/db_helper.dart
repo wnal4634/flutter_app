@@ -21,8 +21,8 @@ class DBHelper {
             'CREATE TABLE $_tableName('
             'id INTEGER PRIMARY KEY AUTOINCREMENT, '
             'title STRING, note TEXT, date STRING, '
-            'color INTEGER, weather INTEGER, '
-            'isCompleted INTEGER)',
+            'writeTime STRING, color INTEGER, '
+            'weather INTEGER, isCompleted INTEGER)',
           );
         },
       );

@@ -4,6 +4,7 @@ class Task {
   String? note;
   int? isCompleted;
   String? date;
+  String? writeTime;
   int? color;
   int? weather;
 
@@ -13,6 +14,7 @@ class Task {
     this.note,
     this.isCompleted,
     this.date,
+    this.writeTime,
     this.color,
     this.weather,
   });
@@ -23,6 +25,7 @@ class Task {
     note = json['note'];
     isCompleted = json['isCompleted'];
     date = json['date'];
+    writeTime = json['writeTime'];
     color = json['color'];
     weather = json['weather'];
   }
@@ -34,6 +37,7 @@ class Task {
     data['note'] = note;
     data['isCompleted'] = isCompleted;
     data['date'] = date;
+    data['writeTime'] = writeTime;
     data['color'] = color;
     data['weather'] = weather;
     return data;

@@ -36,25 +36,48 @@ class TaskTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 12,
+                    height: 8,
                   ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.access_time_rounded,
-                        color: Colors.grey[200],
-                        size: 18,
+                      Text(
+                        task?.writeTime ?? '',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 4),
+                      // CircleAvatar(
+                      //   radius: 16.5,
+                      //   backgroundColor: Colors.black.withOpacity(0.0),
+                      //   backgroundImage: AssetImage(
+                      //     _getWeather(task?.weather ?? 0),
+                      //   ),
+                      // )
+                      ColorFiltered(
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcATop,
+                        ),
+                        child: Image.asset(
+                          _getWeather(task?.weather ?? 0),
+                          width: 30,
+                        ),
+                      )
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   Text(
                     task?.note ?? "",
                     style: GoogleFonts.lato(
-                      textStyle:
-                          TextStyle(fontSize: 15, color: Colors.grey[100]),
+                      textStyle: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[100],
+                      ),
                     ),
                   ),
                 ],
@@ -94,6 +117,31 @@ class TaskTile extends StatelessWidget {
         return yellowClr;
       default:
         return bluishClr;
+    }
+  }
+
+  _getWeather(int no) {
+    switch (no) {
+      case 0:
+        return 'icon/none.png';
+      case 1:
+        return 'icon/sun.png';
+      case 2:
+        return 'icon/cloud_sun.png';
+      case 3:
+        return 'icon/cloud.png';
+      case 4:
+        return 'icon/cloudy.png';
+      case 5:
+        return 'icon/wind.png';
+      case 6:
+        return 'icon/rain.png';
+      case 7:
+        return 'icon/snow.png';
+      case 8:
+        return 'icon/thunder.png';
+      default:
+        return 'icon/none.png';
     }
   }
 }
